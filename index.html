@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+    <title>Hola Mundo OpenCD.js</title>
+</head>
+<body>
+    <h2>Hola Mundo OpenCV.js</h2>
+    <p id= "status"> OpenCV.js se esta cargando...</p>
+
+    <div>
+        <img id="imgSrc" alt=" no hay imagen cargada"/>
+        <div> Cargar imagen: <input type="file" id="fileInput" name= "file" /></div>
+    </div>
+    <br>
+    <br>
+    <div>
+        <button onclick="ConvertirBN()">Convertir imagen en BN</button>
+        <div><p>Imagen resultante:</p></div>
+        <canvas id="canvasOutput"></canvas>
+
+    </div>
+    <script>
+        var imgElement = document.getElementById('imgSrc');
+        var inputElement = document.getElementById('fileInput');
+
+
+        //Hacer funcionar nuestro boton de cargar imagen
+        inputElement.addEventListener('change', (e) => {
+            imgElement.src = URL.createObjectURL(e.target.files[0]);
+        }, false);
+
+        function ConvertirBN(){
+            let mat = cv.imread(imgElement);
+            cv.cvtColor(mat, mat , cv.COLOR_BGR2GRAY);
+            cv.imshow('canvasOutput', mat);
+            mat.delete();
+        }
+
+
+        function onOpenCvReady(){
+            document.getElementById('status').innerHTML = 'OpenCV.js esta listo';
+        }
+    </script>
+    <script  asyc src="opencv.js" onload="onOpenCvReady()"  type="text/javascript" ></script>
+</body>
+</html>
